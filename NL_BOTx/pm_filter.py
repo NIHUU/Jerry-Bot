@@ -607,7 +607,7 @@ async def auto_filter(client, msg, spoll=False):
             await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
     else:
         await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
-      if spoll:
+    if spoll:
         await msg.message.delete()
 
 async def advantage_spell_chok(msg):
