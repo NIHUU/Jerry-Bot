@@ -64,7 +64,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"📁 {get_size(file.file_size)} » {file.file_name}", callback_data=f'files#{file.file_id}'
+                    text=f"📁 {get_size(file.file_size)}  {file.file_name}", callback_data=f'files#{file.file_id}'
                 ),
             ]
             for file in files
@@ -91,19 +91,18 @@ async def next_page(bot, query):
         off_set = offset - 5
     if n_offset == 0:
         btn.append(
-            [InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
-             InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} - {math.ceil(total / 10)}",
+            [InlineKeyboardButton("🔙 𝖡𝖺𝖼𝗄", callback_data=f"next_{req}_{key}_{off_set}"),
+             InlineKeyboardButton(f"📃 𝖯𝖺𝗀𝖾𝗌 {math.ceil(int(offset) / 10) + 1} - {math.ceil(total / 10)}",
                                   callback_data="pages")]
         )
     elif off_set is None:
         btn.append(
-            [InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")])
+            [InlineKeyboardButton("𝖭𝖾𝗑𝗍 🔜", callback_data=f"next_{req}_{key}_{n_offset}")])
     else:
         btn.append(
             [
-                InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
-                InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-                InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")
+                InlineKeyboardButton("🔙 𝖡𝖺𝖼𝗄", callback_data=f"next_{req}_{key}_{off_set}"),
+                InlineKeyboardButton("𝖭𝖾𝗑𝗍 🔜", callback_data=f"next_{req}_{key}_{n_offset}")
             ],
         )
     try:
@@ -446,14 +445,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
         del n2, n
         
     elif query.data == "pages":
-        await query.answer('Page No : 2 | Total Results : 5')
+        await query.answer(f'Page No : {math.ceil(int(offset) / 10) + 1} | Total Results : {total_results}')
   
     elif query.data.startswith("setgs"):
         ident, set_type, status, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
 
         if str(grp_id) != str(grpid):
-            await query.message.edit("Your Active Connection Has Been Changed. Go To /settings.")
+            await query.message.edit("ᴄʜᴀɴɢᴇ ᴛʜᴇ sᴇᴛᴛɪɴɢs ʙʏ ᴄᴏɴɴᴇᴄᴛɪɴɢ ɢʀᴏᴜᴘ ᴛᴏ ʙᴏᴛ ᴘᴍ 😊")
             return await query.answer('Piracy Is Crime')
 
         if status == "True":
@@ -492,11 +491,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('ᴡᴇʟᴄᴏᴍᴇ', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
                     InlineKeyboardButton('ʏᴇs' if settings["welcome"] else 'ɴᴏ',
                                          callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('ᴄʟᴏsᴇ sᴇᴛᴛɪɴɢs', callback_data="close_data")
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
             await query.message.edit_reply_markup(reply_markup)
-    await query.answer('Piracy Is Crime')
+    await query.answer('sᴇᴛᴛɪɴɢs ᴄʜᴀɴɢᴇᴅ....')
 
 
 async def auto_filter(client, msg, spoll=False):
@@ -550,7 +552,7 @@ async def auto_filter(client, msg, spoll=False):
         BUTTONS[key] = search
         req = message.from_user.id if message.from_user else 0
         btn.append(
-            [InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
+            [InlineKeyboardButton(text="𝖭𝖾𝗑𝗍 🔜", callback_data=f"next_{req}_{key}_{offset}")]
         )
     else:
         btn.append(
@@ -596,7 +598,7 @@ async def auto_filter(client, msg, spoll=False):
     if imdb and imdb.get('poster'):
         try:
             d = await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
-            await asyncio.sleep(100)
+            await asyncio.sleep(86400)
             await d.delete()
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
