@@ -595,17 +595,19 @@ async def auto_filter(client, msg, spoll=False):
         cap = f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>"
     if imdb and imdb.get('poster'):
         try:
-            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            d = await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            await asyncio.sleep(100)
+            await d.delete()
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
-            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))
+            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
         except Exception as e:
             logger.exception(e)
-            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))
+            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
     else:
-        await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))
-    if spoll:
+        await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+      if spoll:
         await msg.message.delete()
 
 async def advantage_spell_chok(msg):
