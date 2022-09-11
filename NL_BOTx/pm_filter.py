@@ -684,18 +684,22 @@ async def auto_filter(client, msg, spoll=False):
         cap = f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>"
     if imdb and imdb.get('poster'):
         try:
-            d = await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            fmsg = await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
             await asyncio.sleep(86400)
             await d.delete()
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
-            await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            fmsg = await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
         except Exception as e:
             logger.exception(e)
-            await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            fmsg = await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
     else:
-        await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+       fmsg = await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+    await asyncio.sleep(600)
+    await message.delete()
+    await fmsg.delete()
+            
     if spoll:
         await msg.message.delete()
         
