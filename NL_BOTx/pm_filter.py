@@ -420,11 +420,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 )
             ]
         ]
-        n = await client.send_cached_media(
-            chat_id=CH_FILTER,
-            file_id=file_id,
-            reply_markup=InlineKeyboardMarkup(btn),
-
+        
         try:
             if AUTH_CHANNEL and not await is_subscribed(client, query):
                 await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
