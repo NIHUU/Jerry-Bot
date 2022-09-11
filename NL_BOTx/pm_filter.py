@@ -3,6 +3,7 @@ import asyncio
 import re
 import ast
 import math
+import random
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from Script import script
 import pyrogram
@@ -412,6 +413,17 @@ async def cb_handler(client: Client, query: CallbackQuery):
             f_caption = f_caption
         if f_caption is None:
             f_caption = f"{files.file_name}"
+        btn = [
+            [
+                InlineKeyboardButton(
+                    '📢 Uᴘᴅᴀᴛᴇ', url=f'{CH_LINK}'
+                )
+            ]
+        ]
+        n = await client.send_cached_media(
+            chat_id=CH_FILTER,
+            file_id=file_id,
+            reply_markup=InlineKeyboardMarkup(btn),
 
         try:
             if AUTH_CHANNEL and not await is_subscribed(client, query):
@@ -421,9 +433,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
                 return
             else:
-                ur = await client.send_cached_media(
+        
+            ur = await client.send_cached_media(
                     chat_id=CH_FILTER,
                     file_id=file_id,
+                    reply_markup=InlineKeyboardMarkup(btn),
                     caption=f'<b>ʜᴇʏ 👋 {query.from_user.mention}</b> 😍\n\n<code>[CL] {title}</code>\n\n⚠️ <i>This file will be deleted from here within 5 minute as it has copyright ... !!!</i>\n\n<i>കോപ്പിറൈറ്റ് ഉള്ളതുകൊണ്ട് ഫയൽ 5 മിനിറ്റിനുള്ളിൽ ഇവിടെനിന്നും ഡിലീറ്റ് ആകുന്നതാണ് അതുകൊണ്ട് ഇവിടെ നിന്നും മറ്റെവിടെക്കെങ്കിലും മാറ്റിയതിന് ശേഷം ഡൗൺലോഡ് ചെയ്യുക!</i>\n\n<i><b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ {query.message.chat.title}</b></i>',
                     protect_content=True if ident == "filep" else False 
                 )
@@ -482,9 +496,17 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if f_caption is None:
             f_caption = f"{title}"
         await query.answer()
+        btn = [
+            [
+                InlineKeyboardButton(
+                    '📢 Uᴘᴅᴀᴛᴇ', url=f'{CH_LINK}'
+                )
+            ]
+        ]
         n = await client.send_cached_media(
             chat_id=CH_FILTER,
             file_id=file_id,
+            reply_markup=InlineKeyboardMarkup(btn),
             caption=f'<b>ʜᴇʏ 👋 {query.from_user.mention}</b> 😍\n\n<code>[CL] {title}</code>\n\n⚠️ <i>This file will be deleted from here within 5 minute as it has copyright ... !!!</i>\n\n<i>കോപ്പിറൈറ്റ് ഉള്ളതുകൊണ്ട് ഫയൽ 5 മിനിറ്റിനുള്ളിൽ ഇവിടെനിന്നും ഡിലീറ്റ് ആകുന്നതാണ് അതുകൊണ്ട് ഇവിടെ നിന്നും മറ്റെവിടെക്കെങ്കിലും മാറ്റിയതിന് ശേഷം ഡൗൺലോഡ് ചെയ്യുക!</i>\n\n<i><b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ {query.message.chat.title}</b></i>',
             protect_content=True if ident == 'checksubp' else False
         )
@@ -662,21 +684,21 @@ async def auto_filter(client, msg, spoll=False):
         cap = f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\nHere What I Found For Your Query #{message.text} 👇</b>"
     if imdb and imdb.get('poster'):
         try:
-            d = await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            d = await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
             await asyncio.sleep(86400)
             await d.delete()
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
-            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
         except Exception as e:
             logger.exception(e)
-            await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+            await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
     else:
-        await message.reply_photo(photo="https://telegra.ph/file/0906ec4afd7875fa8e9a0.jpg", caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
+        await message.reply_photo(photo=random.choice(PICS), caption=f"<b><u>Hey {message.from_user.mention} Buddy</u>\n\n📁 Found {total_results} Files For Your Query #{message.text} 👇</b>", reply_markup=InlineKeyboardMarkup(btn))        
     if spoll:
         await msg.message.delete()
-
+        
 async def advantage_spell_chok(msg):
     search = msg.text
     query = re.sub(
